@@ -12,11 +12,10 @@ import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
-import com.mongodb.MongoClient;
+import com.mongodb.MongoURI;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -25,13 +24,17 @@ import java.util.logging.Logger;
  * @author Fredy
  */
 public class SuperDAO <T extends SuperPojo> {
-    private static MongoClient mongoClient ;
+    //private static MongoClient mongoClient ;
     protected static DB db ;
     static{
         try {
-            //ResourceBundle rb=ResourceBundle.getBundle("config");
-            mongoClient = new MongoClient( "localhost" , 27017 );
-            db = mongoClient.getDB( "Simulador" );
+            //mongoClient = new MongoClient( "localhost" , 27017 );
+            //db = mongoClient.getDB( "Simulador" );
+
+            MongoURI mongoURI = new MongoURI(System.getenv("MONGOHQ_URL"));
+            db = mongoURI.connectDB();
+            db.authenticate(mongoURI.getUsername(), mongoURI.getPassword());
+            
         } catch (UnknownHostException ex) {
             Logger.getLogger(SuperDAO.class.getName()).log(Level.SEVERE, null, ex);
         } catch(Exception ex){
