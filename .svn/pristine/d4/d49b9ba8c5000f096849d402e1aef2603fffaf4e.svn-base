@@ -1,0 +1,29 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.edu.uniandes.cloud.simuladorcredito.jpa;
+
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMarshaller;
+import com.google.gson.Gson;
+
+/**
+ *
+ * @author Daniel
+ */
+public class LineaMarshaller implements DynamoDBMarshaller<Linea>{
+
+    @Override
+    public String marshall(Linea t) {
+        return new Gson().toJson(t);
+    }
+
+    @Override
+    public Linea unmarshall(Class<Linea> type, String string) {
+        return new Gson().fromJson(string, type);
+    }
+    
+    
+    
+}

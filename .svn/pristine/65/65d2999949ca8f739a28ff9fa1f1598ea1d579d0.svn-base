@@ -1,0 +1,84 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package co.edu.uniandes.cloud.simuladorcredito.persistencia;
+
+import co.edu.uniandes.cloud.simuladorcredito.jpa.Secuencia;
+import java.util.HashMap;
+
+/**
+ *
+ * @author Fredy
+ */
+public class SecuenciaDAO extends SuperDAO{
+    private static final Long TAMANO_CACHE = 20L;
+    private static final SecuenciaDAO instancia;
+    private static final HashMap<String, Long[]> cache=new HashMap<>();
+    
+    static{
+        instancia = new SecuenciaDAO();
+    }
+    
+    private SecuenciaDAO(){
+        
+    }
+
+    public static SecuenciaDAO getInstancia() {
+        return instancia;
+    }
+    
+    public Secuencia leer(String llave){
+        Object s=mapper.load(Secuencia.class, llave);
+        if (s==null)
+            return null;
+        return (Secuencia)s;
+    }     
+   
+    
+    public Long getSiguiente(Class entidad){
+        String tabla=entidad.toString();
+        Long numeros[]=cache.get(tabla);
+        if (numeros!=null){
+            // existe en caché
+            numeros[0]++;
+            if (numeros[0]==numeros[1]){
+                Secuencia s=(Secuencia)leer(tabla);
+                numeros[0]=s.getSecuencia()+1;
+                numeros[1]=s.getSecuencia()+TAMANO_CACHE;
+                
+                s.setSecuencia(s.getSecuencia()+TAMANO_CACHE);
+                mapper.save(s);
+                
+                cache.put(tabla, numeros);
+                return numeros[0];
+            } else{
+                return numeros[0];
+            }
+        }else{
+            // no existe en caché
+            Secuencia s=leer(tabla);
+            if (s==null){
+                // No existe el registro de esa entidad en la tabla secuencia
+                s=new Secuencia();
+                s.setTabla(tabla);
+                s.setSecuencia(TAMANO_CACHE);
+                Long ns[]=new Long[]{1L, TAMANO_CACHE};
+                mapper.save(s);
+                cache.put(tabla, ns);
+                return 1L;
+            }else{
+                // Existe el registro en la tabla secuencia
+                Long ns[]=new Long[]{s.getSecuencia()+1, s.getSecuencia()+TAMANO_CACHE};
+                s.setSecuencia(s.getSecuencia()+TAMANO_CACHE);
+                mapper.save(s);
+                cache.put(tabla, ns);
+                return ns[0];
+            }
+                
+        }
+        
+    }
+}

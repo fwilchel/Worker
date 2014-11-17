@@ -1,0 +1,81 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package co.edu.uniandes.cloud.simuladorcredito.persistencia;
+
+import co.edu.uniandes.cloud.simuladorcredito.jpa.Administrador;
+import co.edu.uniandes.cloud.simuladorcredito.jpa.Cuota;
+import co.edu.uniandes.cloud.simuladorcredito.jpa.Linea;
+import co.edu.uniandes.cloud.simuladorcredito.jpa.PlanPago;
+import co.edu.uniandes.cloud.simuladorcredito.negocio.AmortizacionFrances;
+import java.util.Date;
+
+/**
+ *
+ * @author Fredy
+ */
+public class TestDAO {
+    public static void main(String args[]){
+        AdministradorDAO ad=new AdministradorDAO();
+        Administrador a = ad.leer(1L);
+        System.out.print(a.getEmail());
+        
+        Linea l = crearLinea(a);
+        PlanPago pp = crearPlan(l);
+        
+        pp=leerPlan(pp);
+        for (Cuota c : pp.getCuotas()){
+            System.out.println(c.getNumeroCuota()+ " "+c.getCapital()+" "+c.getIntereses()+" "+c.getTotal()+" "+c.getSaldo());
+        }
+        
+        
+        
+        
+        
+    }
+    public static PlanPago leerPlan(PlanPago pp){
+        PlanPagoDAO d = new PlanPagoDAO();
+        return d.leer(pp.getId());
+    }
+    
+    public static PlanPago crearPlan(Linea l){
+        PlanPagoDAO d = new PlanPagoDAO();
+        PlanPago p = new PlanPago();
+        p.setEstado("Generado");
+        p.setDocumento("79799225");
+        p.setFechaNacimiento(new Date());
+        p.setLinea(l);
+        p.setNivelRiesgo(5d);
+        p.setPlazo(10);
+        p.setValor(10000000);
+        
+        AmortizacionFrances af=new AmortizacionFrances();
+        p.setCuotas(af.generarCuotas(p.getValor(), p.getLinea().getTasa(), p.getPlazo()));
+        
+        return d.insertar(p);
+    }
+    
+    public static Linea crearLinea(Administrador a){
+        LineaDAO d=new LineaDAO();
+        Linea l = new Linea();
+        l.setNombre("Vehiculos");
+        l.setTasa(10d);
+        l.setAdministrador(a.getId());
+        return d.insertar(l);
+    }
+    
+    public static Administrador crearAdministrador(){
+        AdministradorDAO ad=new AdministradorDAO();
+        Administrador a=new Administrador();
+        a.setApellidos("Wilches");
+        a.setEmail("fredy.wilches@gmail.com");
+        a.setNombres("Fredy");
+        a.setPassword("123456");
+        a=ad.insertar(a);
+        System.out.print(a);
+        return a;
+    }
+}
