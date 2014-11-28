@@ -1,1 +1,1 @@
-worker:  bundle exec rake jobs:work
+worker:  sh worker/target/bin/worker
