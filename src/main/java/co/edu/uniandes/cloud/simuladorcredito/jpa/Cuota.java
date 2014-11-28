@@ -9,7 +9,7 @@ package co.edu.uniandes.cloud.simuladorcredito.jpa;
  *
  * @author Fredy
  */
-public class Cuota extends SuperPojo{
+public class Cuota extends SuperPojo implements Comparable{
     private Long id;
     private Integer numeroCuota;
     private Double intereses;
@@ -74,5 +74,9 @@ public class Cuota extends SuperPojo{
         this.idPlan = idPlan;
     }
     
-    
+    @Override
+    public int compareTo(Object o) {
+        Cuota c = (Cuota)o;
+        return this.id.compareTo(c.getId());
+    }    
 }

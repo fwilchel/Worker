@@ -9,6 +9,7 @@ import co.edu.uniandes.cloud.simuladorcredito.jpa.Cuota;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -34,12 +35,14 @@ public class CuotaDAO extends SuperDAO<Cuota>{
             a.setIdPlan((Long)doc.get("idPlan"));
             cuotas.add(a);
         }
+        Collections.sort(cuotas);
         return cuotas;
     }
 
     
     public List<Cuota> insertar(List<Cuota> cuotas){
         if (cuotas!=null){
+            super.remover("idPlan", cuotas.get(0).getIdPlan());
             for (Cuota s:cuotas){
                 s.setId(SecuenciaDAO.getInstancia().getSiguiente(s.getClass()));
                 BasicDBObject doc = new BasicDBObject("id", s.getId()).append("numeroCuota", s.getNumeroCuota()).append("intereses", s.getIntereses()).append("capital", s.getCapital()).append("total", s.getTotal()).append("saldo", s.getSaldo()).append("idPlan", s.getIdPlan());

@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>worker</groupId>
-    <artifactId>Worker</artifactId>
+    <artifactId>worker</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <properties>
@@ -26,11 +26,23 @@
             <artifactId>mongo-java-driver</artifactId>
             <version>2.13.0-rc0</version>
         </dependency>
+        
+        <dependency>
+            <groupId>com.rabbitmq</groupId>
+            <artifactId>amqp-client</artifactId>
+            <version>2.8.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.amqp</groupId>
+            <artifactId>spring-rabbit</artifactId>
+            <version>1.0.0.RELEASE</version>
+        </dependency>
+        
         <!--dependency>
 		<groupId>org.codehaus.jackson</groupId>
 		<artifactId>jackson-mapper-asl</artifactId>
 		<version>1.8.5</version>
 	</dependency-->
     </dependencies>
-    <name>Worker</name>
+    <name>Worker</name> 
 </project>

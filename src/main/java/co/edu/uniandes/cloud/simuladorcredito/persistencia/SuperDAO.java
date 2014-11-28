@@ -12,6 +12,7 @@ import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
+import com.mongodb.MongoClient;
 import com.mongodb.MongoURI;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -28,8 +29,8 @@ public class SuperDAO <T extends SuperPojo> {
     protected static DB db ;
     static{
         try {
-            //mongoClient = new MongoClient( "localhost" , 27017 );
-            //db = mongoClient.getDB( "Simulador" );
+            /*MongoClient mongoClient = new MongoClient( "localhost" , 27017 );
+            db = mongoClient.getDB( "mydb" );*/
 
             MongoURI mongoURI = new MongoURI(System.getenv("MONGOHQ_URL"));
             db = mongoURI.connectDB();
@@ -69,6 +70,10 @@ public class SuperDAO <T extends SuperPojo> {
            cursor.close();
         }   
         return lista;
+    }
+    
+    protected void remover(String campo, Object valor){
+        col.remove(new BasicDBObject(campo, valor));
     }
     
 }
