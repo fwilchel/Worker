@@ -53,9 +53,10 @@ public class Process {
     AmortizacionFrances aa = new AmortizacionFrances();
 
     public void procesar(){
-        
+        System.out.println("Paso2");
         ConnectionFactory factory = new ConnectionFactory();
         try {
+            System.out.println("Paso3");
             factory.setUri(uri);
             Connection connection = factory.newConnection();
             Channel channel = connection.createChannel();
@@ -181,7 +182,8 @@ public class Process {
     }
     
     public static void main(String args[]){
-        //new Process().procesar();
-        new Process().procesarLocal(82);
+        System.out.println("Paso1");
+        new Process().procesar();
+        //new Process().procesarLocal(82);
     }
 }
