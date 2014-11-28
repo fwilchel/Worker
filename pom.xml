@@ -15,7 +15,7 @@
           <artifactId>appassembler-maven-plugin</artifactId>
           <version>1.1.1</version>
           <configuration>
-            <assembleDirectory>target</assembleDirectory>
+            <assembleDirectory>classes</assembleDirectory>
             <programs>
                 <program>
                     <mainClass>co.edu.uniandes.cloud.simuladorcredito.negocio.Process</mainClass>
