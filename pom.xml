@@ -15,10 +15,10 @@
           <artifactId>appassembler-maven-plugin</artifactId>
           <version>1.1.1</version>
           <configuration>
-            <assembleDirectory>classes</assembleDirectory>
+            <assembleDirectory>target</assembleDirectory>
             <programs>
                 <program>
-                    <mainClass>co.edu.uniandes.cloud.simuladorcredito.negocio.Process</mainClass>
+                    <mainClass>Process</mainClass>
                     <name>worker</name>
                 </program>
             </programs>
