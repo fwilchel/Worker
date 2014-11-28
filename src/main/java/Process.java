@@ -144,7 +144,7 @@ public class Process {
     }
 
     public void procesarLocal(long plan){
-
+        System.out.println("Paso2b");
                 String mensaje = "1";
                 System.out.println(" [x] Received '" + mensaje + "'");
                 System.out.println("Procesando..."+mensaje+"-"+Calendar.getInstance());
@@ -182,7 +182,7 @@ public class Process {
     }
     
     public static void main(String args[]){
-        System.out.println("Paso1");
+        System.out.println("Paso1b");
         new Process().procesar();
         //new Process().procesarLocal(82);
     }
